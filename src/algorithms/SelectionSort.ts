@@ -25,16 +25,16 @@ class SelectionSort extends SortingAlgorithmAbstract {
 
       // Swap and set sorted.
       steps.push({
-        action: AlgorithmAction.Swap,
+        action: AlgorithmAction.SwapAndSetSorted,
         operands: {
-          left: i,
-          right: minIndex,
-        },
-      });
-      steps.push({
-        action: AlgorithmAction.SetSorted,
-        operands: {
-          left: i,
+          left: {
+            index: i,
+            sorted: true,
+          },
+          right: {
+            index: minIndex,
+            sorted: false,
+          },
         },
       });
 
@@ -46,9 +46,7 @@ class SelectionSort extends SortingAlgorithmAbstract {
     // Set the last element sorted.
     steps.push({
       action: AlgorithmAction.SetSorted,
-      operands: {
-        left: n - 1,
-      },
+      operand: n - 1,
     });
     steps.push({
       action: AlgorithmAction.Finish,

@@ -1,5 +1,3 @@
-import SelectionSort from "./algorithms/SelectionSort";
-
 export enum AlgorithmAction {
   Swap,
   Compare,
@@ -8,35 +6,42 @@ export enum AlgorithmAction {
   SwapAndSetSorted,
 }
 
-interface AlgorithmStepBase {
-  action: AlgorithmAction;
-  operands?: {
+export interface StepSwap {
+  action: AlgorithmAction.Swap;
+  operands: {
     left: number;
-    right?: number;
+    right: number;
   };
 }
 
-export interface StepSwap extends AlgorithmStepBase {
-  action: AlgorithmAction.Swap;
-}
-
-export interface StepCompare extends AlgorithmStepBase {
+export interface StepCompare {
   action: AlgorithmAction.Compare;
+  operands: {
+    left: number;
+    right: number;
+  };
 }
 
-export interface StepSetSorted extends AlgorithmStepBase {
+export interface StepSetSorted {
   action: AlgorithmAction.SetSorted;
+  operand: number;
 }
 
-export interface StepFinish extends AlgorithmStepBase {
+export interface StepFinish {
   action: AlgorithmAction.Finish;
 }
 
-export interface StepSwapAndSetSorted extends AlgorithmStepBase {
+export interface StepSwapAndSetSorted {
   action: AlgorithmAction.SwapAndSetSorted;
-  sortedOperands: {
-    left: boolean;
-    right: boolean;
+  operands: {
+    left: {
+      index: number;
+      sorted: boolean;
+    };
+    right: {
+      index: number;
+      sorted: boolean;
+    };
   };
 }
 
@@ -53,9 +58,16 @@ export enum StateColor {
   Green = "green",
 }
 
-export type SortingAlgorithm = typeof SelectionSort;
-
 export interface UIBar {
   value: number;
   backgroundColor: StateColor;
+}
+
+export enum SortingAlgorithmName {
+  Selection = "selection",
+}
+
+export interface VisualizerSettings {
+  arrayLength: number;
+  algorithmName: SortingAlgorithmName;
 }

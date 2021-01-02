@@ -1,7 +1,8 @@
-import { SortingAlgorithm } from "../types";
 import SelectionSort from "./SelectionSort";
 
-const algorithms: Record<string, SortingAlgorithm> = {
+type SortingAlgorithmClass = typeof SelectionSort;
+
+const algorithms: Record<string, SortingAlgorithmClass> = {
   selection: SelectionSort,
 };
 

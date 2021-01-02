@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 
 // https://usehooks-typescript.com/react-hook/use-interval
-const useInterval = (callback: () => void, delay: number | null) => {
+export const useInterval = (callback: () => void, delay: number | null) => {
   const savedCallback = useRef<() => void | null>();
 
   // Remember the latest callback.
@@ -26,5 +26,3 @@ const useInterval = (callback: () => void, delay: number | null) => {
     }
   }, [delay]);
 };
-
-export default useInterval;

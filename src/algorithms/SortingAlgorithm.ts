@@ -1,9 +1,9 @@
 import { AlgorithmStep, StateColor, UIBar } from "../types";
 import { randomArray } from "../utils/randomArray";
 
-export const MIN_VALUE = 5;
+export const MIN_VALUE = 1;
 
-abstract class SortingAlgorithmAbstract {
+abstract class SortingAlgorithm {
   protected numberArray: number[] = [];
 
   public getInitialState(): UIBar[] {
@@ -22,4 +22,4 @@ abstract class SortingAlgorithmAbstract {
   public abstract sort(): AlgorithmStep[];
 }
 
-export default SortingAlgorithmAbstract;
+export default SortingAlgorithm;

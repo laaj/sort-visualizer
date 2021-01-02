@@ -1,5 +1,4 @@
 .bars-container {
-  box-sizing: content-box;
   display: flex;
   padding: 1em 1em 0 1em;
   border: 5px solid black;

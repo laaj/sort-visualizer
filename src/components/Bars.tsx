@@ -12,7 +12,7 @@ interface BarsProps {
 
 const Bars: React.FC<BarsProps> = ({ bars }) => {
   const maxValue = MIN_VALUE + bars.length - 1;
-  const heightCoefficient = HEIGHT / maxValue;
+  const heightCoefficient = (HEIGHT - 16) / maxValue;
 
   return (
     <div
