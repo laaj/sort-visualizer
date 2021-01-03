@@ -8,6 +8,7 @@ export const useAlgorithm = () => {
     SortingAlgorithmName.Selection
   );
   const algorithm = useRef<SortingAlgorithm | null>(null);
+  const algorithmDisplayName = algorithms[algorithmName].algorithmName;
 
   const getAlgorithm = useCallback(() => {
     if (algorithm.current === null) {
@@ -21,5 +22,5 @@ export const useAlgorithm = () => {
     algorithm.current = new algorithms[name]();
   };
 
-  return { algorithmName, getAlgorithm, setAlgorithm };
+  return { algorithmDisplayName, getAlgorithm, setAlgorithm };
 };

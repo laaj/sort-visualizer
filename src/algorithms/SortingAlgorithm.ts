@@ -4,6 +4,7 @@ import { randomArray } from "../utils/randomArray";
 export const MIN_VALUE = 1;
 
 abstract class SortingAlgorithm {
+  static algorithmName: string;
   protected numberArray: number[] = [];
 
   public getInitialState(): UIBar[] {

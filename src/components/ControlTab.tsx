@@ -1,38 +1,62 @@
-import "./ControlTab.css";
+// import { Button, Slider } from "@material-ui/core";
 import React from "react";
-import { SortingAlgorithmName } from "../types";
+import "./ControlTab.css";
+const Button = require("@material-ui/core/Button").default;
+const Slider = require("@material-ui/core/Slider").default;
+const IconButton = require("@material-ui/core/IconButton").default;
+const PlayCircleFilledIcon = require("@material-ui/icons/PlayCircleFilled")
+  .default;
+const PauseCircleFilledIcon = require("@material-ui/icons/PauseCircleFilled")
+  .default;
 
 interface ControlTabProps {
+  isRunning: boolean;
   arrayLength: number;
   setArrayLength: (length: number) => void;
-  algorithmName: SortingAlgorithmName;
-  setAlgorithm: (name: SortingAlgorithmName) => void;
   onClickReset: () => void;
   onClickPlay: () => void;
   onClickGenerateNew: () => void;
 }
 
 const ControlTab: React.FC<ControlTabProps> = ({
+  isRunning,
   arrayLength,
   setArrayLength,
-  algorithmName,
-  setAlgorithm,
   onClickGenerateNew,
   onClickPlay,
   onClickReset,
 }) => {
   return (
     <div className="control-tab-container">
-      <button onClick={onClickGenerateNew}>generate</button>
-      <button onClick={onClickPlay}>play</button>
-      <button onClick={onClickReset}>reset</button>
-      <input
-        type="range"
-        min="10"
-        max="50"
-        value={arrayLength}
-        onChange={(e) => setArrayLength(Number(e.target.value))}
-      />
+      <div className="play-buttons">
+        <IconButton className="play-button" onClick={onClickPlay}>
+          {isRunning ? <PauseCircleFilledIcon /> : <PlayCircleFilledIcon />}
+        </IconButton>
+      </div>
+      <div className="settings">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={onClickGenerateNew}
+        >
+          Generate New
+        </Button>
+        <Button variant="contained" onClick={onClickReset}>
+          Reset
+        </Button>
+        <div className="slider">
+          <p>Adjust the number of bars</p>
+          <Slider
+            value={arrayLength}
+            onChange={(_: any, newValue: any) =>
+              setArrayLength(newValue as number)
+            }
+            step={1}
+            min={10}
+            max={50}
+          />
+        </div>
+      </div>
     </div>
   );
 };

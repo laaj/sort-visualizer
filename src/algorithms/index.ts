@@ -1,9 +1,10 @@
+import { SortingAlgorithmClass, SortingAlgorithmName } from "../types";
+import MergeSort from "./MergeSort";
 import SelectionSort from "./SelectionSort";
 
-type SortingAlgorithmClass = typeof SelectionSort;
-
-const algorithms: Record<string, SortingAlgorithmClass> = {
+const algorithms: Record<SortingAlgorithmName, SortingAlgorithmClass> = {
   selection: SelectionSort,
+  merge: MergeSort,
 };
 
 export default algorithms;

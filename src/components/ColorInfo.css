@@ -1,0 +1,30 @@
+.color-info {
+  display: flex;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.color-info > div {
+  margin-right: 20px;
+}
+
+.box {
+  position: relative;
+  top: 2px;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 1px solid black;
+}
+
+.red {
+  background-color: red;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.green {
+  background-color: green;
+}

@@ -2,6 +2,8 @@ import { AlgorithmAction, AlgorithmStep } from "../types";
 import SortingAlgorithmAbstract from "./SortingAlgorithm";
 
 class SelectionSort extends SortingAlgorithmAbstract {
+  static algorithmName = "Selection Sort";
+
   public sort() {
     const arr = [...this.numberArray];
     const steps: AlgorithmStep[] = [];

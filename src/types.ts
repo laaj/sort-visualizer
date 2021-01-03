@@ -1,3 +1,6 @@
+import MergeSort from "./algorithms/MergeSort";
+import SelectionSort from "./algorithms/SelectionSort";
+
 export enum AlgorithmAction {
   Swap,
   Compare,
@@ -65,9 +68,7 @@ export interface UIBar {
 
 export enum SortingAlgorithmName {
   Selection = "selection",
+  Merge = "merge",
 }
 
-export interface VisualizerSettings {
-  arrayLength: number;
-  algorithmName: SortingAlgorithmName;
-}
+export type SortingAlgorithmClass = typeof SelectionSort | typeof MergeSort;
