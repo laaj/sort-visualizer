@@ -1,9 +1,19 @@
 .bars-container {
-  display: flex;
-  padding: 1em 5px 0 5px;
+  position: relative;
   border: 5px solid black;
-  align-items: flex-end;
   margin: 0 auto;
   width: 100%;
   border-radius: 10px;
+}
+
+.main-bars,
+.ambient-bars {
+  display: flex;
+  padding: 1em 5px 0 5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  align-items: flex-end;
 }

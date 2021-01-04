@@ -4,8 +4,8 @@ interface BarProps {
   style: React.CSSProperties;
 }
 
-const Bar: React.FC<BarProps> = ({ style }) => {
-  return <div style={style}></div>;
-};
+const Bar = React.forwardRef<HTMLDivElement, BarProps>(({ style }, ref) => {
+  return <div style={style} ref={ref}></div>;
+});
 
 export default Bar;

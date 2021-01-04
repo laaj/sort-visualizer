@@ -70,6 +70,7 @@
   overflow: hidden;
   margin-top: 5px;
   border-radius: 5px;
+  z-index: 100;
 }
 
 .dropdown-menu.open {

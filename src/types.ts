@@ -7,6 +7,10 @@ export enum AlgorithmAction {
   SetSorted,
   Finish,
   SwapAndSetSorted,
+  MergeEnter,
+  MergeCompare,
+  MergeSetSorted,
+  MergeExit,
 }
 
 export interface StepSwap {
@@ -48,12 +52,46 @@ export interface StepSwapAndSetSorted {
   };
 }
 
+export interface StepMergeCompare {
+  action: AlgorithmAction.MergeCompare;
+  operands: {
+    left: number;
+    right: number;
+  };
+}
+
+export interface StepMergeEnter {
+  action: AlgorithmAction.MergeEnter;
+  start: number;
+  end: number;
+}
+
+export interface StepMergeSetSorted {
+  action: AlgorithmAction.MergeSetSorted;
+  from: number;
+  to: number;
+  sorted: boolean;
+}
+
+export interface StepMergeExit {
+  action: AlgorithmAction.MergeExit;
+  start: number;
+  end: number;
+  swapMap: {
+    [id: number]: number;
+  };
+}
+
 export type AlgorithmStep =
   | StepSwap
   | StepCompare
   | StepSetSorted
   | StepFinish
-  | StepSwapAndSetSorted;
+  | StepSwapAndSetSorted
+  | StepMergeCompare
+  | StepMergeEnter
+  | StepMergeSetSorted
+  | StepMergeExit;
 
 export enum StateColor {
   Red = "red",
@@ -64,6 +102,7 @@ export enum StateColor {
 export interface UIBar {
   value: number;
   backgroundColor: StateColor;
+  id: number;
 }
 
 export enum SortingAlgorithmName {

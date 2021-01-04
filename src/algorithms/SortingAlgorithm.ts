@@ -1,4 +1,5 @@
 import { AlgorithmStep, StateColor, UIBar } from "../types";
+import { getUniqueId } from "../utils/idHelper";
 import { randomArray } from "../utils/randomArray";
 
 export const MIN_VALUE = 1;
@@ -11,6 +12,7 @@ abstract class SortingAlgorithm {
     return this.numberArray.map((x) => ({
       value: x,
       backgroundColor: StateColor.Red,
+      id: getUniqueId(),
     }));
   }
 

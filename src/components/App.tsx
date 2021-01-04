@@ -12,10 +12,15 @@ interface AppProps {}
 const App: React.FC<AppProps> = () => {
   const { algorithmDisplayName, getAlgorithm, setAlgorithm } = useAlgorithm();
   const [arrayLength, setArrayLength] = useState(10);
-  const { isRunning, bars, generateBars, togglePlay, reset } = useVisualizer(
-    getAlgorithm(),
-    arrayLength
-  );
+  const {
+    isRunning,
+    mainBars,
+    ambientBars,
+    barsRef,
+    generateBars,
+    togglePlay,
+    reset,
+  } = useVisualizer(getAlgorithm(), arrayLength);
 
   return (
     <div className="app-container">
@@ -23,7 +28,7 @@ const App: React.FC<AppProps> = () => {
         currentAlgorithmName={algorithmDisplayName}
         setAlgorithm={setAlgorithm}
       />
-      <Bars bars={bars} />
+      <Bars mainBars={mainBars} ambientBars={ambientBars} ref={barsRef} />
       <ControlTab
         isRunning={isRunning}
         arrayLength={arrayLength}
