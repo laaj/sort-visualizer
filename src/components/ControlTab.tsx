@@ -8,6 +8,8 @@ const PlayCircleFilledIcon = require("@material-ui/icons/PlayCircleFilled")
   .default;
 const PauseCircleFilledIcon = require("@material-ui/icons/PauseCircleFilled")
   .default;
+const SkipNextIcon = require("@material-ui/icons/SkipNext").default;
+const SkipPreviousIcon = require("@material-ui/icons/SkipPrevious").default;
 
 interface ControlTabProps {
   isRunning: boolean;
@@ -33,11 +35,15 @@ const ControlTab: React.FC<ControlTabProps> = ({
   return (
     <div className="control-tab-container">
       <div className="play-buttons">
-        <button onClick={onClickStepBackward}>backward</button>
+        <IconButton onClick={onClickStepBackward}>
+          <SkipPreviousIcon />
+        </IconButton>
         <IconButton className="play-button" onClick={onClickPlay}>
           {isRunning ? <PauseCircleFilledIcon /> : <PlayCircleFilledIcon />}
         </IconButton>
-        <button onClick={onClickStepForward}>forward</button>
+        <IconButton onClick={onClickStepForward}>
+          <SkipNextIcon />
+        </IconButton>
       </div>
       <div className="settings">
         <Button

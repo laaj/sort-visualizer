@@ -25,11 +25,6 @@
   margin-bottom: 20px;
 }
 
-.play-button {
-  padding: 0 !important;
-}
-
-.play-button,
-.play-button svg {
+.play-buttons svg {
   font-size: 40px !important;
 }
