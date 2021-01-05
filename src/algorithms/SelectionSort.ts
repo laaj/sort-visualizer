@@ -1,8 +1,12 @@
-import { AlgorithmAction, AlgorithmStep } from "../types";
+import {
+  AlgorithmAction,
+  AlgorithmStep,
+  SortingAlgorithmDisplayName,
+} from "../types";
 import SortingAlgorithmAbstract from "./SortingAlgorithm";
 
 class SelectionSort extends SortingAlgorithmAbstract {
-  static algorithmName = "Selection Sort";
+  public name = SortingAlgorithmDisplayName.Selection;
 
   public sort() {
     const arr = [...this.numberArray];

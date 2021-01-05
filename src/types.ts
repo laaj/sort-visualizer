@@ -105,9 +105,15 @@ export interface UIBar {
   id: number;
 }
 
-export enum SortingAlgorithmName {
-  Selection = "selection",
-  Merge = "merge",
+export interface BarState {
+  backgroundColor: string;
+  order: string;
+  opacity: string;
+}
+
+export enum SortingAlgorithmDisplayName {
+  Selection = "Selection Sort",
+  Merge = "Merge Sort",
 }
 
 export type SortingAlgorithmClass = typeof SelectionSort | typeof MergeSort;

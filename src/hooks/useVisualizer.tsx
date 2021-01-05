@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import SortingAlgorithm from "../algorithms/SortingAlgorithm";
-import { AlgorithmAction, AlgorithmStep, UIBar } from "../types";
-import { evaluateStep } from "../utils/evaluateStep";
+import { AlgorithmAction, AlgorithmStep, BarState, UIBar } from "../types";
+import { evaluateNextStep, evaluatePrevStep } from "../utils/evaluateStep";
 
 export const useVisualizer = (
   algorithm: SortingAlgorithm,
@@ -11,58 +11,86 @@ export const useVisualizer = (
   const [mainBars, setMainBars] = useState<UIBar[]>([]);
   const [ambientBars, setAmbientBars] = useState<UIBar[]>([]);
 
-  const stepsRef = useRef<AlgorithmStep[]>([]);
-  const stepIndexRef = useRef<number>(0);
+  const steps = useRef<AlgorithmStep[]>([]);
+  const stepIndex = useRef<number>(0);
   const barsRef = useRef<any>(null);
-  const timeoutsRef = useRef<NodeJS.Timeout[]>([]);
+  const timeOuts = useRef<NodeJS.Timeout[]>([]);
+  const prevMainBars = useRef<Array<BarState[]>>([]);
+  const prevAmbientBars = useRef<Array<BarState[]>>([]);
 
   const startVisualization = () => {
-    // const delay =
-    //   stepsRef.current.length > 0
-    //     ? Math.max(10, Math.min(300, 20000 / stepsRef.current.length))
-    //     : null;
-    // if (delay) {
-    //   for (let i = stepIndexRef.current; i < stepsRef.current.length; i++) {
-    //     timeoutsRef.current.push(
-    //       setTimeout(() => {
-    //         evaluateStep(
-    //           barsRef.current.mainBars,
-    //           barsRef.current.ambientBars,
-    //           stepsRef.current[stepIndexRef.current]
-    //         );
-    //         if (
-    //           stepsRef.current[stepIndexRef.current].action ===
-    //           AlgorithmAction.Finish
-    //         ) {
-    //           setIsRunning(false);
-    //         }
-    //         stepIndexRef.current += 1;
-    //       }, (i - stepIndexRef.current + 1) * delay)
-    //     );
-    //   }
-    // }
-    setTimeout(() => {
-      evaluateStep(
-        barsRef.current.mainBars,
-        barsRef.current.ambientBars,
-        stepsRef.current[stepIndexRef.current]
-      );
-      setIsRunning(false);
-      stepIndexRef.current += 1;
-    }, 100);
+    const delay =
+      steps.current.length > 0
+        ? Math.max(10, Math.min(300, 20000 / steps.current.length))
+        : null;
+    if (delay) {
+      for (let i = stepIndex.current; i < steps.current.length; i++) {
+        timeOuts.current.push(
+          setTimeout(() => {
+            evaluateNextStep(
+              barsRef.current.mainBars,
+              barsRef.current.ambientBars,
+              steps.current[stepIndex.current],
+              prevMainBars,
+              prevAmbientBars,
+              stepIndex.current === prevMainBars.current.length
+            );
+            if (
+              steps.current[stepIndex.current].action === AlgorithmAction.Finish
+            ) {
+              setIsRunning(false);
+            }
+            stepIndex.current += 1;
+          }, (i - stepIndex.current + 1) * delay)
+        );
+      }
+    }
   };
 
   const clearVisualization = () => {
-    timeoutsRef.current.forEach((timeout) => clearTimeout(timeout));
+    timeOuts.current.forEach((timeout) => clearTimeout(timeout));
   };
 
   const reset = () => {
     clearVisualization();
-    stepIndexRef.current = 0;
+    stepIndex.current = 0;
     setIsRunning(false);
     const initialBars = algorithm.getInitialState();
     setMainBars(initialBars);
     setAmbientBars(initialBars);
+  };
+
+  const stepForward = () => {
+    if (steps.current.length === 0) {
+      steps.current = algorithm.sort();
+    }
+    if (stepIndex.current < steps.current.length) {
+      clearVisualization();
+      setIsRunning(false);
+      evaluateNextStep(
+        barsRef.current.mainBars,
+        barsRef.current.ambientBars,
+        steps.current[stepIndex.current],
+        prevMainBars,
+        prevAmbientBars,
+        stepIndex.current === prevMainBars.current.length
+      );
+      stepIndex.current += 1;
+    }
+  };
+
+  const stepBackward = () => {
+    if (stepIndex.current > 0) {
+      clearVisualization();
+      setIsRunning(false);
+      evaluatePrevStep(
+        barsRef.current.mainBars,
+        barsRef.current.ambientBars,
+        prevMainBars.current[stepIndex.current - 1],
+        prevAmbientBars.current[stepIndex.current - 1]
+      );
+      stepIndex.current -= 1;
+    }
   };
 
   const togglePlay = () => {
@@ -71,13 +99,13 @@ export const useVisualizer = (
       setIsRunning(false);
     } else {
       if (
-        stepsRef.current.length > 0 &&
-        stepIndexRef.current >= stepsRef.current.length
+        steps.current.length > 0 &&
+        stepIndex.current >= steps.current.length
       ) {
         reset();
       } else {
-        if (stepsRef.current.length === 0) {
-          stepsRef.current = algorithm.sort();
+        if (steps.current.length === 0) {
+          steps.current = algorithm.sort();
         }
         startVisualization();
         setIsRunning(true);
@@ -87,9 +115,11 @@ export const useVisualizer = (
 
   const generateBars = useCallback(() => {
     clearVisualization();
-    stepIndexRef.current = 0;
+    stepIndex.current = 0;
     setIsRunning(false);
-    stepsRef.current = [];
+    steps.current = [];
+    prevMainBars.current = [];
+    prevAmbientBars.current = [];
     const initialBars = algorithm.generateArray(arrayLength);
     setMainBars(initialBars);
     setAmbientBars(initialBars);
@@ -107,5 +137,7 @@ export const useVisualizer = (
     generateBars,
     togglePlay,
     reset,
+    stepForward,
+    stepBackward,
   };
 };

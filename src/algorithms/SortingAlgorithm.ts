@@ -1,11 +1,16 @@
-import { AlgorithmStep, StateColor, UIBar } from "../types";
+import {
+  AlgorithmStep,
+  SortingAlgorithmDisplayName,
+  StateColor,
+  UIBar,
+} from "../types";
 import { getUniqueId } from "../utils/idHelper";
 import { randomArray } from "../utils/randomArray";
 
 export const MIN_VALUE = 1;
 
 abstract class SortingAlgorithm {
-  static algorithmName: string;
+  public abstract name: SortingAlgorithmDisplayName;
   protected numberArray: number[] = [];
 
   public getInitialState(): UIBar[] {

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import algorithms from "../algorithms";
-import { SortingAlgorithmName } from "../types";
+import SortingAlgorithm from "../algorithms/SortingAlgorithm";
+// import { SortingAlgorithmName } from "../types";
 import "./Header.css";
 
 interface HeaderProps {
   currentAlgorithmName: string;
-  setAlgorithm: (name: SortingAlgorithmName) => void;
+  setAlgorithm: (algorithm: SortingAlgorithm) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -32,15 +33,15 @@ const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
           <ul className={`dropdown-menu ${showDropdown ? "open" : ""}`}>
-            {Object.keys(algorithms).map((a) => (
+            {algorithms.map((a) => (
               <li
-                key={algorithms[a as SortingAlgorithmName].algorithmName}
+                key={a.displayName}
                 onClick={() => {
-                  setAlgorithm(a as SortingAlgorithmName);
+                  setAlgorithm(new a.algorithmClass());
                   setShowDropdown(false);
                 }}
               >
-                {algorithms[a as SortingAlgorithmName].algorithmName}
+                {a.displayName}
               </li>
             ))}
           </ul>

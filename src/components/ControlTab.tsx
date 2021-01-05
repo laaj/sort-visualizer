@@ -16,6 +16,8 @@ interface ControlTabProps {
   onClickReset: () => void;
   onClickPlay: () => void;
   onClickGenerateNew: () => void;
+  onClickStepForward: () => void;
+  onClickStepBackward: () => void;
 }
 
 const ControlTab: React.FC<ControlTabProps> = ({
@@ -25,13 +27,17 @@ const ControlTab: React.FC<ControlTabProps> = ({
   onClickGenerateNew,
   onClickPlay,
   onClickReset,
+  onClickStepForward,
+  onClickStepBackward,
 }) => {
   return (
     <div className="control-tab-container">
       <div className="play-buttons">
+        <button onClick={onClickStepBackward}>backward</button>
         <IconButton className="play-button" onClick={onClickPlay}>
           {isRunning ? <PauseCircleFilledIcon /> : <PlayCircleFilledIcon />}
         </IconButton>
+        <button onClick={onClickStepForward}>forward</button>
       </div>
       <div className="settings">
         <Button
@@ -53,7 +59,7 @@ const ControlTab: React.FC<ControlTabProps> = ({
             }
             step={1}
             min={10}
-            max={50}
+            max={100}
           />
         </div>
       </div>

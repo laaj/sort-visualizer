@@ -1,11 +1,31 @@
-import { AlgorithmAction, AlgorithmStep, StateColor } from "../types";
+import { AlgorithmAction, AlgorithmStep, BarState, StateColor } from "../types";
 import assertNever from "./assertNever";
 
-export const evaluateStep = (
+export const evaluateNextStep = (
   mainBars: HTMLDivElement[],
   ambientBars: HTMLDivElement[],
-  step: AlgorithmStep
+  step: AlgorithmStep,
+  prevMainBars: React.MutableRefObject<BarState[][]>,
+  prevAmbientBars: React.MutableRefObject<BarState[][]>,
+  appendToPrevState: boolean
 ): void => {
+  if (appendToPrevState) {
+    prevMainBars.current.push(
+      mainBars.map((bar) => ({
+        backgroundColor: bar.style.backgroundColor,
+        opacity: bar.style.opacity,
+        order: bar.style.order,
+      }))
+    );
+    prevAmbientBars.current.push(
+      ambientBars.map((bar) => ({
+        backgroundColor: bar.style.backgroundColor,
+        opacity: bar.style.opacity,
+        order: bar.style.order,
+      }))
+    );
+  }
+
   switch (step.action) {
     case AlgorithmAction.Compare: {
       mainBars.forEach((bar) => {
@@ -106,16 +126,15 @@ export const evaluateStep = (
         }
       });
       mainBars.forEach((bar) => {
+        const index = parseInt(bar.style.order);
         if (bar.style.height === targetHeight) {
           bar.style.order = step.to.toString();
           bar.style.opacity = "1";
           bar.style.backgroundColor = step.sorted
             ? StateColor.Green
             : StateColor.Red;
-        }
-        const index = parseInt(bar.style.order);
-        if (index === step.to) {
-          bar.style.order = step.from.toString();
+        } else if (index === step.to) {
+          bar.style.order = (step.to + 1).toString();
         }
       });
       break;
@@ -132,4 +151,22 @@ export const evaluateStep = (
     default:
       assertNever(step);
   }
+};
+
+export const evaluatePrevStep = (
+  mainBars: HTMLDivElement[],
+  ambientBars: HTMLDivElement[],
+  prevMainBarsState: BarState[],
+  prevAmbientBarsState: BarState[]
+): void => {
+  mainBars.forEach((bar, i) => {
+    bar.style.backgroundColor = prevMainBarsState[i].backgroundColor;
+    bar.style.order = prevMainBarsState[i].order;
+    bar.style.opacity = prevMainBarsState[i].opacity;
+  });
+  ambientBars.forEach((bar, i) => {
+    bar.style.backgroundColor = prevAmbientBarsState[i].backgroundColor;
+    bar.style.order = prevAmbientBarsState[i].order;
+    bar.style.opacity = prevAmbientBarsState[i].opacity;
+  });
 };

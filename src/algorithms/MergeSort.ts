@@ -1,8 +1,12 @@
-import { AlgorithmAction, AlgorithmStep } from "../types";
+import {
+  AlgorithmAction,
+  AlgorithmStep,
+  SortingAlgorithmDisplayName,
+} from "../types";
 import SortingAlgorithm from "./SortingAlgorithm";
 
 class MergeSort extends SortingAlgorithm {
-  static algorithmName = "Merge Sort";
+  public name = SortingAlgorithmDisplayName.Merge;
 
   public sort() {
     const arr = [...this.numberArray];
@@ -21,9 +25,13 @@ class MergeSort extends SortingAlgorithm {
       const leftSubArraySorted = mergeSort(
         list.slice(0, middle),
         start,
-        middle
+        start + middle
       );
-      const rightSubArraySorted = mergeSort(list.slice(middle), middle, end);
+      const rightSubArraySorted = mergeSort(
+        list.slice(middle),
+        start + middle,
+        end
+      );
 
       return merge(leftSubArraySorted, rightSubArraySorted, start, end);
     };
@@ -58,20 +66,20 @@ class MergeSort extends SortingAlgorithm {
           steps.push({
             action: AlgorithmAction.MergeSetSorted,
             from: start + i,
-            to: i + j,
+            to: start + i + j,
             sorted,
           });
-          swapMap[start + i] = i + j;
+          swapMap[start + i] = start + i + j;
           result.push(left[i]);
           i++;
         } else {
           steps.push({
             action: AlgorithmAction.MergeSetSorted,
             from: start + left.length + j,
-            to: i + j,
+            to: start + i + j,
             sorted,
           });
-          swapMap[start + left.length + j] = i + j;
+          swapMap[start + left.length + j] = start + i + j;
           result.push(right[j]);
           j++;
         }
@@ -81,10 +89,10 @@ class MergeSort extends SortingAlgorithm {
         steps.push({
           action: AlgorithmAction.MergeSetSorted,
           from: start + i,
-          to: i + j,
+          to: start + i + j,
           sorted,
         });
-        swapMap[start + i] = i + j;
+        swapMap[start + i] = start + i + j;
         result.push(left[i]);
         i++;
       }
@@ -92,10 +100,10 @@ class MergeSort extends SortingAlgorithm {
         steps.push({
           action: AlgorithmAction.MergeSetSorted,
           from: start + left.length + j,
-          to: i + j,
+          to: start + i + j,
           sorted,
         });
-        swapMap[start + left.length + j] = i + j;
+        swapMap[start + left.length + j] = start + i + j;
         result.push(right[j]);
         j++;
       }
