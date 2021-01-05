@@ -114,6 +114,8 @@ export interface BarState {
 export enum SortingAlgorithmDisplayName {
   Selection = "Selection Sort",
   Merge = "Merge Sort",
+  Insertion = "Insertion Sort",
+  Quick = "Quicksort",
 }
 
 export type SortingAlgorithmClass = typeof SelectionSort | typeof MergeSort;
